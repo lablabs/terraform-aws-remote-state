@@ -19,7 +19,7 @@ locals {
 data "aws_caller_identity" "provider" {}
 
 module "label" {
-  source  = "lablabs/label/null"
+  source  = "cloudposse/label/null"
   version = "0.16.0"
 
   namespace   = var.namespace
@@ -30,7 +30,7 @@ module "label" {
 }
 
 module "state_lock" {
-  source  = "lablabs/dynamodb/aws"
+  source  = "cloudposse/dynamodb/aws"
   version = "0.15.0"
 
   enabled           = var.lock
@@ -126,8 +126,8 @@ data "aws_iam_policy_document" "state_bucket_policy" {
 }
 
 module "state_bucket" {
-  source  = "lablabs/s3-bucket/aws"
-  version = "0.7.0"
+  source  = "cloudposse/s3-bucket/aws"
+  version = "0.8.0"
 
   enabled            = var.state
   namespace          = module.label.namespace
@@ -224,7 +224,7 @@ data "aws_iam_policy_document" "state_kms_policy" {
 }
 
 module "state_auth_kms_key" {
-  source  = "lablabs/kms-key/aws"
+  source  = "cloudposse/kms-key/aws"
   version = "0.4.0"
 
   enabled     = var.state_kms == "auto" ? true : false
