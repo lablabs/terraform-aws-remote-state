@@ -58,7 +58,6 @@ data "aws_iam_policy_document" "state_policy_root" {
     principals {
       type = "AWS"
       identifiers = [
-        format("arn:aws:iam::%s:role/OrganizationAccountAccessRole", data.aws_caller_identity.provider.account_id),
         format("arn:aws:iam::%s:root", data.aws_caller_identity.provider.account_id)
       ]
     }
@@ -156,7 +155,6 @@ data "aws_iam_policy_document" "state_kms_policy_root" {
     principals {
       type = "AWS"
       identifiers = [
-        format("arn:aws:iam::%s:role/OrganizationAccountAccessRole", data.aws_caller_identity.provider.account_id),
         format("arn:aws:iam::%s:root", data.aws_caller_identity.provider.account_id)
       ]
     }
