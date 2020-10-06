@@ -20,7 +20,7 @@ data "aws_caller_identity" "provider" {}
 
 module "label" {
   source  = "cloudposse/label/null"
-  version = "0.16.0"
+  version = "0.19.2"
 
   namespace   = var.namespace
   environment = var.environment
@@ -31,7 +31,7 @@ module "label" {
 
 module "state_lock" {
   source  = "cloudposse/dynamodb/aws"
-  version = "0.15.0"
+  version = "0.20.0"
 
   enabled           = var.lock
   namespace         = module.label.namespace
@@ -126,7 +126,7 @@ data "aws_iam_policy_document" "state_bucket_policy" {
 
 module "state_bucket" {
   source  = "cloudposse/s3-bucket/aws"
-  version = "0.8.0"
+  version = "0.22.0"
 
   enabled            = var.state
   namespace          = module.label.namespace
@@ -223,7 +223,7 @@ data "aws_iam_policy_document" "state_kms_policy" {
 
 module "state_auth_kms_key" {
   source  = "cloudposse/kms-key/aws"
-  version = "0.4.0"
+  version = "0.7.0"
 
   enabled     = var.state_kms == "auto" ? true : false
   namespace   = module.label.namespace
