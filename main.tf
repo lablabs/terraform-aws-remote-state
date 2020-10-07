@@ -78,8 +78,8 @@ data "aws_iam_policy_document" "state_bucket_policy" {
       not_actions = lookup(statement.value, "not_actions", null)
 
       resources = [
-        local.bucket_arn,
-        "${local.bucket_arn}/*"
+        format("%s", local.bucket_arn),
+        format("%s/*", local.bucket_arn)
       ]
 
       dynamic "principals" {
