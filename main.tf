@@ -76,7 +76,11 @@ data "aws_iam_policy_document" "state_bucket_policy" {
       effect      = lookup(statement.value, "effect", null)
       actions     = lookup(statement.value, "actions", null)
       not_actions = lookup(statement.value, "not_actions", null)
-      resources   = [local.bucket_arn, "${local.bucket_arn}/*"]
+
+      resources = [
+        local.bucket_arn,
+        "${local.bucket_arn}/*"
+      ]
 
       dynamic "principals" {
         for_each = toset([
