@@ -8,10 +8,10 @@ locals {
   bucket_kms_arn            = "*"
   bucket_kms_key            = var.state_kms == "master" ? "" : (var.state_kms == "auto" ? module.state_auth_kms_key.key_arn : var.state_kms)
   bucket_kms_attributes     = concat(module.label.attributes, ["key"])
-  bukcet_policies = [
+  bucket_policies = [
     data.aws_iam_policy_document.state_policy_root
   ]
-  bukcet_kms_policies = [
+  bucket_kms_policies = [
     data.aws_iam_policy_document.state_kms_policy_root
   ]
 }
@@ -68,7 +68,7 @@ data "aws_iam_policy_document" "state_policy_root" {
 data "aws_iam_policy_document" "state_bucket_policy" {
   dynamic "statement" {
     for_each = flatten([
-      for policy in concat(var.state_policies, local.bukcet_policies) : policy.statement
+      for policy in concat(var.state_policies, local.bucket_policies) : policy.statement
     ])
 
     content {
@@ -76,7 +76,7 @@ data "aws_iam_policy_document" "state_bucket_policy" {
       effect      = lookup(statement.value, "effect", null)
       actions     = lookup(statement.value, "actions", null)
       not_actions = lookup(statement.value, "not_actions", null)
-      resources   = [local.bucket_arn]
+      resources   = [local.bucket_arn, "${local.bucket_arn}/*"]
 
       dynamic "principals" {
         for_each = toset([
@@ -165,7 +165,7 @@ data "aws_iam_policy_document" "state_kms_policy_root" {
 data "aws_iam_policy_document" "state_kms_policy" {
   dynamic "statement" {
     for_each = flatten([
-      for policy in concat(var.state_kms_policies, local.bukcet_kms_policies) : policy.statement
+      for policy in concat(var.state_kms_policies, local.bucket_kms_policies) : policy.statement
     ])
 
     content {
