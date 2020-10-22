@@ -1,13 +1,13 @@
 locals {
   dynamo_hash_key           = "LockID"
   dynamo_enable_autoscaler  = false
-  dynamo_attributes         = concat(module.label.attributes, ["lock"])
+  dynamo_attributes         = concat(module.this.attributes, ["lock"])
   bucket_versioning_enabled = true
-  bucket_arn                = format("arn:aws:s3:::%s", module.label.id)
-  bucket_attributes         = concat(module.label.attributes, [])
+  bucket_arn                = format("arn:aws:s3:::%s", module.this.id)
+  bucket_attributes         = concat(module.this.attributes, [])
   bucket_kms_arn            = "*"
   bucket_kms_key            = var.state_kms == "master" ? "" : (var.state_kms == "auto" ? module.state_auth_kms_key.key_arn : var.state_kms)
-  bucket_kms_attributes     = concat(module.label.attributes, ["key"])
+  bucket_kms_attributes     = concat(module.this.attributes, ["key"])
   bucket_policies = [
     data.aws_iam_policy_document.state_policy_root
   ]
@@ -18,29 +18,21 @@ locals {
 
 data "aws_caller_identity" "provider" {}
 
-module "label" {
-  source  = "cloudposse/label/null"
-  version = "0.19.2"
-
-  namespace   = var.namespace
-  environment = var.environment
-  name        = var.name
-  tags        = var.tags
-  attributes  = var.attributes
-}
-
 module "state_lock" {
   source  = "cloudposse/dynamodb/aws"
   version = "0.20.0"
 
   enabled           = var.lock
-  namespace         = module.label.namespace
-  environment       = module.label.environment
-  name              = module.label.name
-  tags              = module.label.tags
+  namespace         = module.this.namespace
+  stage             = module.this.stage
+  environment       = module.this.environment
+  name              = module.this.name
+  tags              = module.this.tags
   attributes        = local.dynamo_attributes
   hash_key          = local.dynamo_hash_key
   enable_autoscaler = local.dynamo_enable_autoscaler
+
+  # TODO: integrate with context label once cloudposse/dynamodb/aws module supports it
 }
 
 data "aws_iam_policy_document" "state_policy_root" {
@@ -133,15 +125,13 @@ module "state_bucket" {
   version = "0.22.0"
 
   enabled            = var.state
-  namespace          = module.label.namespace
-  environment        = module.label.environment
-  name               = module.label.name
-  tags               = module.label.tags
   attributes         = local.bucket_attributes
   versioning_enabled = local.bucket_versioning_enabled
   sse_algorithm      = var.state_sse
   kms_master_key_arn = local.bucket_kms_key
   policy             = data.aws_iam_policy_document.state_bucket_policy.json
+
+  context = module.this.context
 }
 
 data "aws_iam_policy_document" "state_kms_policy_root" {
@@ -229,11 +219,9 @@ module "state_auth_kms_key" {
   source  = "cloudposse/kms-key/aws"
   version = "0.7.0"
 
-  enabled     = var.state_kms == "auto" ? true : false
-  namespace   = module.label.namespace
-  environment = module.label.environment
-  name        = module.label.name
-  tags        = module.label.tags
-  attributes  = local.bucket_kms_attributes
-  policy      = data.aws_iam_policy_document.state_kms_policy.json
+  enabled    = var.state_kms == "auto" ? true : false
+  attributes = local.bucket_kms_attributes
+  policy     = data.aws_iam_policy_document.state_kms_policy.json
+
+  context = module.this.context
 }
