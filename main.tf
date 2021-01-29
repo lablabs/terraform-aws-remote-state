@@ -20,19 +20,14 @@ data "aws_caller_identity" "provider" {}
 
 module "state_lock" {
   source  = "cloudposse/dynamodb/aws"
-  version = "0.20.0"
+  version = "0.24.0"
 
   enabled           = var.lock
-  namespace         = module.this.namespace
-  stage             = module.this.stage
-  environment       = module.this.environment
-  name              = module.this.name
-  tags              = module.this.tags
   attributes        = local.dynamo_attributes
   hash_key          = local.dynamo_hash_key
   enable_autoscaler = local.dynamo_enable_autoscaler
 
-  # TODO: integrate with context label once cloudposse/dynamodb/aws module supports it
+  context = module.this.context
 }
 
 data "aws_iam_policy_document" "state_policy_root" {
@@ -122,7 +117,7 @@ data "aws_iam_policy_document" "state_bucket_policy" {
 
 module "state_bucket" {
   source  = "cloudposse/s3-bucket/aws"
-  version = "0.22.0"
+  version = "0.28.0"
 
   enabled            = var.state
   attributes         = local.bucket_attributes
@@ -217,7 +212,7 @@ data "aws_iam_policy_document" "state_kms_policy" {
 
 module "state_auth_kms_key" {
   source  = "cloudposse/kms-key/aws"
-  version = "0.7.0"
+  version = "0.9.0"
 
   enabled    = var.state_kms == "auto" ? true : false
   attributes = local.bucket_kms_attributes
