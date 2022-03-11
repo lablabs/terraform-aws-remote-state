@@ -20,7 +20,7 @@ data "aws_caller_identity" "provider" {}
 
 module "state_lock" {
   source  = "cloudposse/dynamodb/aws"
-  version = "0.25.2"
+  version = "0.29.5"
 
   enabled           = var.lock
   attributes        = local.dynamo_attributes
@@ -117,7 +117,7 @@ data "aws_iam_policy_document" "state_bucket_policy" {
 
 module "state_bucket" {
   source  = "cloudposse/s3-bucket/aws"
-  version = "0.31.0"
+  version = "0.49.0"
 
   enabled            = var.state
   attributes         = local.bucket_attributes
@@ -212,7 +212,7 @@ data "aws_iam_policy_document" "state_kms_policy" {
 
 module "state_auth_kms_key" {
   source  = "cloudposse/kms-key/aws"
-  version = "0.9.0"
+  version = "0.12.1"
 
   enabled    = var.state_kms == "auto" ? true : false
   attributes = local.bucket_kms_attributes
