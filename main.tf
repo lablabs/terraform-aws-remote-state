@@ -117,7 +117,7 @@ data "aws_iam_policy_document" "state_bucket_policy" {
 
 module "state_bucket" {
   source  = "cloudposse/s3-bucket/aws"
-  version = "0.49.0"
+  version = "2.0.1"
 
   enabled            = var.state
   attributes         = local.bucket_attributes
