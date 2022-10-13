@@ -20,7 +20,7 @@ data "aws_caller_identity" "provider" {}
 
 module "state_lock" {
   source  = "cloudposse/dynamodb/aws"
-  version = "0.29.5"
+  version = "0.30.0"
 
   enabled           = var.lock
   attributes        = local.dynamo_attributes
@@ -28,6 +28,10 @@ module "state_lock" {
   enable_autoscaler = local.dynamo_enable_autoscaler
 
   context = module.this.context
+
+  billing_mode                 = var.dynamo_billing_mode
+  autoscale_min_read_capacity  = var.dynamo_min_read_capacity
+  autoscale_min_write_capacity = var.dynamo_min_write_capacity
 }
 
 data "aws_iam_policy_document" "state_policy_root" {
