@@ -52,10 +52,12 @@ variable "dynamo_billing_mode" {
 
 variable "dynamo_min_read_capacity" {
   type        = number
+  default     = null
   description = "DynamoDB autoscaling min read capacity"
 }
 
 variable "dynamo_min_write_capacity" {
   type        = number
+  default     = null
   description = "DynamoDB autoscaling min write capacity"
 }
