@@ -43,3 +43,21 @@ variable "state_kms_policies" {
   default     = []
   description = "Additional policies attached to kms as list of aws_iam_policy_document "
 }
+
+variable "dynamo_billing_mode" {
+  type        = string
+  default     = "PAY_PER_REQUEST"
+  description = "DynamoDB Billing mode. Can be PROVISIONED or PAY_PER_REQUEST"
+}
+
+variable "dynamo_min_read_capacity" {
+  type        = number
+  default     = null
+  description = "DynamoDB autoscaling min read capacity"
+}
+
+variable "dynamo_min_write_capacity" {
+  type        = number
+  default     = null
+  description = "DynamoDB autoscaling min write capacity"
+}
