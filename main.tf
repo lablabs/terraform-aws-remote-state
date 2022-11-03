@@ -128,7 +128,7 @@ module "state_bucket" {
   versioning_enabled      = local.bucket_versioning_enabled
   sse_algorithm           = var.state_sse
   kms_master_key_arn      = local.bucket_kms_key
-  source_policy_documents = data.aws_iam_policy_document.state_bucket_policy.json
+  source_policy_documents = [data.aws_iam_policy_document.state_bucket_policy.json]
 
   context = module.this.context
 }
