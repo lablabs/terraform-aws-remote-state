@@ -123,12 +123,12 @@ module "state_bucket" {
   source  = "cloudposse/s3-bucket/aws"
   version = "2.0.1"
 
-  enabled            = var.state
-  attributes         = local.bucket_attributes
-  versioning_enabled = local.bucket_versioning_enabled
-  sse_algorithm      = var.state_sse
-  kms_master_key_arn = local.bucket_kms_key
-  policy             = data.aws_iam_policy_document.state_bucket_policy.json
+  enabled                 = var.state
+  attributes              = local.bucket_attributes
+  versioning_enabled      = local.bucket_versioning_enabled
+  sse_algorithm           = var.state_sse
+  kms_master_key_arn      = local.bucket_kms_key
+  source_policy_documents = [data.aws_iam_policy_document.state_bucket_policy.json]
 
   context = module.this.context
 }
