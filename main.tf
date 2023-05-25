@@ -20,7 +20,7 @@ data "aws_caller_identity" "provider" {}
 
 module "state_lock" {
   source  = "cloudposse/dynamodb/aws"
-  version = "0.30.0"
+  version = "0.33.0"
 
   enabled           = var.lock
   attributes        = local.dynamo_attributes
@@ -121,7 +121,7 @@ data "aws_iam_policy_document" "state_bucket_policy" {
 
 module "state_bucket" {
   source  = "cloudposse/s3-bucket/aws"
-  version = "2.0.1"
+  version = "3.1.1"
 
   enabled                 = var.state
   attributes              = local.bucket_attributes
