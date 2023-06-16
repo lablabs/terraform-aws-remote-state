@@ -26,7 +26,7 @@ Terraform module to deploy resources for [Terraform S3 backend](https://develope
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_state_auth_kms_key"></a> [state\_auth\_kms\_key](#module\_state\_auth\_kms\_key) | cloudposse/kms-key/aws | 0.12.1 |
-| <a name="module_state_bucket"></a> [state\_bucket](#module\_state\_bucket) | cloudposse/s3-bucket/aws | 3.1.1 |
+| <a name="module_state_bucket"></a> [state\_bucket](#module\_state\_bucket) | cloudposse/s3-bucket/aws | 3.1.2 |
 | <a name="module_state_lock"></a> [state\_lock](#module\_state\_lock) | cloudposse/dynamodb/aws | 0.33.0 |
 | <a name="module_this"></a> [this](#module\_this) | cloudposse/label/null | 0.25.0 |
 
