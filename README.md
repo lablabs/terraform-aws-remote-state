@@ -66,6 +66,7 @@ Terraform module to deploy resources for [Terraform S3 backend](https://develope
 | <a name="input_state_policies"></a> [state\_policies](#input\_state\_policies) | Additional policies attached to bucket as list of aws\_iam\_policy\_document | `list(any)` | `[]` | no |
 | <a name="input_state_sse"></a> [state\_sse](#input\_state\_sse) | Set to aws:kms to enable encryption SSE-KMS on s3 bucket for remote state | `string` | `"AES256"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
+| <a name="input_allow_ssl_requests_only"></a> [allow\_ssl\_requests\_only](#input\_allow\_ssl\_requests\_only) | Set to `true` to require requests to use Secure Socket Layer (HTTPS/SSL). This will explicitly deny access to HTTP requests | `bool` | `false` | no |
 
 ## Outputs
 
