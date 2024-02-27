@@ -129,7 +129,8 @@ module "state_bucket" {
   sse_algorithm           = var.state_sse
   kms_master_key_arn      = local.bucket_kms_key
   source_policy_documents = [data.aws_iam_policy_document.state_bucket_policy.json]
-
+  allow_ssl_requests_only = var.allow_ssl_requests_only
+  
   s3_object_ownership = "BucketOwnerEnforced"
 
   context = module.this.context

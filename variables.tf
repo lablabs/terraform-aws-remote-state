@@ -61,3 +61,9 @@ variable "dynamo_min_write_capacity" {
   default     = null
   description = "DynamoDB autoscaling min write capacity"
 }
+
+variable "allow_ssl_requests_only" {
+  type        = bool
+  default     = false
+  description = "Set to `true` to require requests to use Secure Socket Layer (HTTPS/SSL). This will explicitly deny access to HTTP requests"
+}
